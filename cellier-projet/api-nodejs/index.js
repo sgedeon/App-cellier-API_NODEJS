@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const {
   getAllBouteilles,
+  createUser,
 } = require("./utils/queryHelpers");
 const app = express();
 const cors = require("cors");
@@ -25,17 +26,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// app.get("/", async function (request, response) {
-//   try {
-//     const [result] = await getAllBouteilles();
-//     response.send({ success: true, result });
-//   } catch (error) {
-//     response.status(500).send({
-//       success: false,
-//       error: genericError,
-//     });
-//   }
-// });
+// require('./utils/routes/findAllBouteilles')(app)
 
 app.get("/api/get/cellier/:id/vins", async function (request, response) {
   try {
@@ -49,6 +40,18 @@ app.get("/api/get/cellier/:id/vins", async function (request, response) {
     });
   }
 });
+
+app.post('/api/ajout/utilisateur', async function (request, response) {
+  try {
+    const [result] = await createUser(request.body);
+    response.send({ success: true, result });
+  } catch (error) {
+    response.status(500).send({
+      success: false,
+      error: genericError,
+  });
+  }
+})
 
 app.listen(3001, ()=>{
   console.log(`Server is running on ${3001}`)

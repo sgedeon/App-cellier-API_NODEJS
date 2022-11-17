@@ -121,13 +121,23 @@ const Appli = () => {
       }
     });
     if (!bool) {
-      let reponse = await fetch(URI + "/admin/ajout/utilisateurs", {
-        method: "POST",
-        body: JSON.stringify({ email: emailUtilisateur, nom: DefautUsername }),
-      });
-      let reponseJson = await reponse.json();
+      // let reponse = await fetch(URI + "/admin/ajout/utilisateurs", {
+      //   method: "POST",
+      //   body: JSON.stringify({ email: emailUtilisateur, nom: DefautUsername }),
+      // });
+      // let reponseJson = await reponse.json();
+
+      Axios.post(
+        "http://localhost:3001/api/ajout/utilisateur",
+        { email: emailUtilisateur, nom: DefautUsername },
+      )
+      .then((res) => res.data)
+      .then((res) => {
+        console.log(res);
+      })
     }
   }
+
 
   async function fetchUtilisateurs() {
     await fetch(
@@ -288,6 +298,7 @@ const Appli = () => {
       setBouteilles(data.result);
     })
   }
+
   // --------------------------------- Gestion des différentes bouteilles comprises dans tous mes celliers ------------------------------------
 
   async function fetchVinsInventaire() {
