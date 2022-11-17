@@ -1,6 +1,7 @@
 // Début des modifications
 
 import React from "react";
+import Axios from 'axios'
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -60,9 +61,17 @@ const Appli = () => {
     if (ENV == "prod") {
       setURI("https://monvino.app/api-php/index.php");
     } else {
-      setURI("http://localhost/PW2/cellier-projet/api-php");
+      setURI("http://localhost:8888/PW2/cellier-projet/api-php");
+      // setURI("http://localhost:3001/api/get");
     }
   }, []);
+
+  useEffect(()=>{
+    Axios.get("http://localhost:3001/api/get/bouteilles").then(response => {
+        const { data } = response
+        console.log(data);
+    })
+  },[])
 
   // ------------------------------- fonctions de gestion des états ----------------------------
 
@@ -254,21 +263,30 @@ const Appli = () => {
 
   // --------------------------------- Gestion des bouteilles ------------------------------------
 
+  // async function fetchVins(cellier) {
+  //   await fetch(URI + "/" + "cellier" + "/" + cellier + "/" + "vins")
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       throw response;
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setBouteilles(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data: ", error);
+  //       setError(error);
+  //     });
+  // }
+
   async function fetchVins(cellier) {
-    await fetch(URI + "/" + "cellier" + "/" + cellier + "/" + "vins")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setBouteilles(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/vins").then(response => {
+      const { data } = response
+      console.log(data.result);
+      setBouteilles(data.result);
+    })
   }
   // --------------------------------- Gestion des différentes bouteilles comprises dans tous mes celliers ------------------------------------
 
