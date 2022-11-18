@@ -51,12 +51,12 @@ export default function NavMobile({
           position="fixed"
           color="primary"
           sx={{ top: "auto", bottom: 0 }}
-		  >
+		    >
           <BottomNavigation
             className="BottomNav"
             value={indexNav}
             onChange={(event, newValue) => {
-				setValue(newValue);
+				      setValue(newValue);
             }}
             showLabels
           >
@@ -87,7 +87,7 @@ export default function NavMobile({
               icon={<AddBottleIcone />}
               component={Link}
               to={`/vins`}
-			  aria-label="bouton-ajouter-bouteille"
+			        aria-label="bouton-ajouter-bouteille"
             />
             <BottomNavigationAction className="disabledIcone" disabled={true} aria-label="bouton-ajouter-bouteille"/>
             <BottomNavigationAction

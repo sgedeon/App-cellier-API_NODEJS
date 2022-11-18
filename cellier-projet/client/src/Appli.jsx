@@ -71,6 +71,10 @@ const Appli = () => {
         const { data } = response
         console.log(data);
     })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   },[])
 
   // ------------------------------- fonctions de gestion des états ----------------------------
@@ -121,12 +125,6 @@ const Appli = () => {
       }
     });
     if (!bool) {
-      // let reponse = await fetch(URI + "/admin/ajout/utilisateurs", {
-      //   method: "POST",
-      //   body: JSON.stringify({ email: emailUtilisateur, nom: DefautUsername }),
-      // });
-      // let reponseJson = await reponse.json();
-
       Axios.post(
         "http://localhost:3001/api/ajout/utilisateur",
         { email: emailUtilisateur, nom: DefautUsername },
@@ -140,41 +138,60 @@ const Appli = () => {
 
 
   async function fetchUtilisateurs() {
-    await fetch(
-      URI + "/" + "admin" + "/" + emailUtilisateur + "/" + "utilisateurs"
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setUtilisateurs(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    // await fetch(
+    //   URI + "/" + "admin" + "/" + emailUtilisateur + "/" + "utilisateurs"
+    // )
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     throw response;
+    //   })
+    //   .then((data) => {
+    //     setUtilisateurs(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data: ", error);
+    //     setError(error);
+    //   });
+    Axios.get("http://localhost:3001/api/get/utilisateurs/" + emailUtilisateur + "/").then(response => {
+      const { data } = response
+      console.log(data.result);
+      setUtilisateurs(data.result);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function fetchUtilisateur() {
-    await fetch(
-      URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs"
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setUtilisateur(data[0]);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    // await fetch(
+    //   URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs"
+    // )
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     throw response;
+    //   })
+    //   .then((data) => {
+    //     setUtilisateur(data[0]);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data: ", error);
+    //     setError(error);
+    //   });
+
+    Axios.get("http://localhost:3001/api/get/utilisateur/" + emailUtilisateur + "/").then(response => {
+      const { data } = response
+      console.log(data.result);
+      setUtilisateurs(data.result[0]);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function supprimerUtilisateur() {
@@ -297,6 +314,10 @@ const Appli = () => {
       console.log(data.result);
       setBouteilles(data.result);
     })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   // --------------------------------- Gestion des différentes bouteilles comprises dans tous mes celliers ------------------------------------
