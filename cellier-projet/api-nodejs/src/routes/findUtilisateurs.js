@@ -1,11 +1,11 @@
-const {getAllUtilisateurs} = require("../queryHelpers");
+const {findUtilisateurs} = require("../queryHelpers");
 const genericError = "Marche pô";
 
 module.exports = (app) => {
-  app.get("/api/get/cellier/:emailUtilisateur/vins", async function (request, response) {
+  app.get("/api/get/utilisateurs/:emailUtilisateur/", async function (request, response) {
     try {
-      var id = request.params.id;
-      const result = await getAllUtilisateurs(emailUtilisateur);
+      var emailUtilisateur = request.params.emailUtilisateur;
+      const result = await findUtilisateurs(emailUtilisateur);
       response.send({ success: true, result });
     } catch (error) {
       response.status(500).send({

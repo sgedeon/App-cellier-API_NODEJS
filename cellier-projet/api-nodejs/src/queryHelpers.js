@@ -23,7 +23,31 @@ async function createUser (body) {
   return connection.execute(`INSERT INTO vino__cellier (vino__cellier.nom, vino__utilisateur_id) VALUES ("Coucou", `+ addUser[0].insertId +`)`);
 };
 
+/**
+ * Récupération d'un utilisateur donné
+ * @date 2022-11-11
+ * @param {string} emailUtilisateur
+ * @returns {array}
+ */
+ async function findUtilisateur (emailUtilisateur) {
+  const connection = await getConnection();
+  return connection.execute(`SELECT DISTINCT vino__utilisateur.id, vino__utilisateur.email, vino__utilisateur.privilege, vino__utilisateur.nom FROM vino__utilisateur JOIN vino__cellier ON vino__utilisateur.id=vino__cellier.vino__utilisateur_id WHERE vino__utilisateur.email="`+ emailUtilisateur +`"`);
+ };
+
+/**
+ * Récupération de l'ensemble des utilisateurs
+ * @date 2022-11-11
+ * @param {string} emailUtilisateur
+ * @returns {array}
+ */
+ async function findUtilisateurs (emailUtilisateur) {
+  const connection = await getConnection();
+  return connection.execute("SELECT vino__utilisateur.id, vino__utilisateur.email, vino__utilisateur.nom FROM vino__utilisateur");
+};
+
 module.exports = {
   getAllBouteilles,
   createUser,
+  findUtilisateur,
+  findUtilisateurs,
 };

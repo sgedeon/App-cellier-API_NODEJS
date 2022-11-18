@@ -149,15 +149,17 @@ const Appli = () => {
     //   })
     //   .then((data) => {
     //     setUtilisateurs(data);
+    //     console.log(data);
     //   })
     //   .catch((error) => {
     //     console.error("Error fetching data: ", error);
     //     setError(error);
     //   });
+
     Axios.get("http://localhost:3001/api/get/utilisateurs/" + emailUtilisateur + "/").then(response => {
       const { data } = response
-      console.log(data.result);
-      setUtilisateurs(data.result);
+      console.log(data.result[0]);
+      setUtilisateurs(data.result[0]);
     })
     .catch((error) => {
       console.error("Error fetching data: ", error);
@@ -176,6 +178,7 @@ const Appli = () => {
     //     throw response;
     //   })
     //   .then((data) => {
+    //     console.log(data[0]);
     //     setUtilisateur(data[0]);
     //   })
     //   .catch((error) => {
@@ -185,8 +188,7 @@ const Appli = () => {
 
     Axios.get("http://localhost:3001/api/get/utilisateur/" + emailUtilisateur + "/").then(response => {
       const { data } = response
-      console.log(data.result);
-      setUtilisateurs(data.result[0]);
+      setUtilisateur(data.result[0][0]);
     })
     .catch((error) => {
       console.error("Error fetching data: ", error);
@@ -312,7 +314,7 @@ const Appli = () => {
     Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/vins").then(response => {
       const { data } = response
       console.log(data.result);
-      setBouteilles(data.result);
+      setBouteilles(data.result[0]);
     })
     .catch((error) => {
       console.error("Error fetching data: ", error);
