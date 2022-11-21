@@ -24,6 +24,17 @@ async function createUser (body) {
 };
 
 /**
+ * Suppression d'un utilisateur 
+ * @date 2022-11-21
+ * @param {string} emailUtilisateur
+ * @returns {Array}
+ */
+async function deleteUser (emailUtilisateur) {
+  const connection = await getConnection();
+  return connection.execute(`DELETE FROM vino__utilisateur WHERE vino__utilisateur.email="`+ emailUtilisateur +`"`);
+};
+
+/**
  * Récupération d'un utilisateur donné
  * @date 2022-11-11
  * @param {string} emailUtilisateur
@@ -48,6 +59,7 @@ async function createUser (body) {
 module.exports = {
   getAllBouteilles,
   createUser,
+  deleteUser,
   findUtilisateur,
   findUtilisateurs,
 };

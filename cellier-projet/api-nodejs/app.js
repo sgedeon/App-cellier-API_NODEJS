@@ -8,7 +8,7 @@ app.use(express.json());
 //app.use(express.static(path.join(__dirname + "/public")));
 
 /** Configuration du cross-origin resource sharing  */
-const whitelist = ["http://localhost:3000"]; //Change to the port in which react app is running
+const whitelist = ["http://localhost:3000"]; 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -22,11 +22,21 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 /** Points d'entrée de l'API */
-require('./src/routes/findAllBouteilles')(app)
-require('./src/routes/createUser')(app)
 
-require('./src/routes/findUtilisateur')(app)
-require('./src/routes/findUtilisateurs')(app)
+/** Bouteilles */
+require('./src/routes/getAllBouteilles')(app)
+
+/** Utilisateurs */
+require('./src/routes/createUser')(app)
+require('./src/routes/deleteUser')(app)
+require('./src/routes/getUtilisateur')(app)
+require('./src/routes/getUtilisateurs')(app)
+
+// On gère les routes 404.
+app.use(({res}) => {
+  const message = 'Impossible de trouver la ressource demandée ! Vous pouvez essayer une autre URL.'
+	res.status(404).json({message});
+});
 
 app.listen(3001, ()=>{
   console.log(`Server is running on ${3001}`)

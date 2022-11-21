@@ -211,11 +211,20 @@ const Appli = () => {
       .catch((err) =>
         console.log("Erreur lors de la suppression de viotre profil", err)
       );
-    let reponse = await fetch(
-      URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
-      { method: "DELETE" }
-    );
-    let reponseJson = await reponse.json();
+    // let reponse = await fetch(
+    //   URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
+    //   { method: "DELETE" }
+    // );
+    // let reponseJson = await reponse.json();
+
+    Axios.delete(
+      "http://localhost:3001/api/delete/utilisateur",
+      { email: emailUtilisateur},
+    )
+    .then((res) => res.data)
+    .then((res) => {
+      console.log(res);
+    })
   }
 
   async function gererSignOut() {
