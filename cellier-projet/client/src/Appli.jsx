@@ -113,6 +113,7 @@ const Appli = () => {
   // -------------------------- Requêtes Fetch ------------------------------------------------------
 
   // ----------------------- Gestion des utilisateurs ------------------------------------------------
+
   async function createUser(emailUtilisateur) {
     let bool = false;
     let DefautUsername = emailUtilisateur.substring(
@@ -136,29 +137,9 @@ const Appli = () => {
     }
   }
 
-
   async function fetchUtilisateurs() {
-    // await fetch(
-    //   URI + "/" + "admin" + "/" + emailUtilisateur + "/" + "utilisateurs"
-    // )
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     throw response;
-    //   })
-    //   .then((data) => {
-    //     setUtilisateurs(data);
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data: ", error);
-    //     setError(error);
-    //   });
-
     Axios.get("http://localhost:3001/api/get/utilisateurs/" + emailUtilisateur + "/").then(response => {
       const { data } = response
-      console.log(data.result[0]);
       setUtilisateurs(data.result[0]);
     })
     .catch((error) => {
@@ -168,24 +149,6 @@ const Appli = () => {
   }
 
   async function fetchUtilisateur() {
-    // await fetch(
-    //   URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs"
-    // )
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     throw response;
-    //   })
-    //   .then((data) => {
-    //     console.log(data[0]);
-    //     setUtilisateur(data[0]);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data: ", error);
-    //     setError(error);
-    //   });
-
     Axios.get("http://localhost:3001/api/get/utilisateur/" + emailUtilisateur + "/").then(response => {
       const { data } = response
       setUtilisateur(data.result[0][0]);
@@ -211,12 +174,6 @@ const Appli = () => {
       .catch((err) =>
         console.log("Erreur lors de la suppression de viotre profil", err)
       );
-    // let reponse = await fetch(
-    //   URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
-    //   { method: "DELETE" }
-    // );
-    // let reponseJson = await reponse.json();
-
     Axios.delete(
       "http://localhost:3001/api/delete/utilisateur",
       { email: emailUtilisateur},
@@ -245,25 +202,20 @@ const Appli = () => {
   }
 
   // ---------------------------------- Gestion des celliers -----------------------------
+
   async function fetchCelliers() {
-    await fetch(URI + "/" + "user_id" + "/" + id + "/" + "celliers")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        if (data["erreur"] === undefined) {
-          localStorage.setItem("celliers", JSON.stringify(data));
-          setCelliers(JSON.parse(localStorage.getItem("celliers")));
-          setCelliers(data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/" + "celliers").then(response => {
+      const { data } = response
+      if (data.success === true) {
+        localStorage.setItem("celliers", JSON.stringify(data.result[0]));
+        setCelliers(JSON.parse(localStorage.getItem("celliers")));
+        setCelliers(data.result[0]);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function fetchNomCellier() {
@@ -300,24 +252,6 @@ const Appli = () => {
   }
 
   // --------------------------------- Gestion des bouteilles ------------------------------------
-
-  // async function fetchVins(cellier) {
-  //   await fetch(URI + "/" + "cellier" + "/" + cellier + "/" + "vins")
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       }
-  //       throw response;
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setBouteilles(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data: ", error);
-  //       setError(error);
-  //     });
-  // }
 
   async function fetchVins(cellier) {
     Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/vins").then(response => {

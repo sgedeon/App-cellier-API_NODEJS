@@ -1,5 +1,7 @@
 const getConnection = require("./db");
 
+/** Bouteilles */
+
 /**
  * Gestion de la récupération de la liste de bouteilles d'un cellier donné
  * @date 2022-11-11
@@ -22,6 +24,21 @@ async function createUser (body) {
   const addUser = await connection.execute(`INSERT INTO vino__utilisateur (vino__utilisateur.email, vino__utilisateur.nom) VALUES ("`+ body.email +`" ,"`+ body.nom +`")`);
   return connection.execute(`INSERT INTO vino__cellier (vino__cellier.nom, vino__utilisateur_id) VALUES ("Coucou", `+ addUser[0].insertId +`)`);
 };
+
+/** Celliers */
+
+/**
+ * Gestion de la récupération de la liste de celliers d'un utilisateur donné
+ * @date 2022-11-11
+ * @param {int} id
+ * @returns {Array}
+ */
+ async function getAllCelliers(id) {
+  const connection = await getConnection();
+  return connection.execute(`SELECT vino__cellier.id, vino__cellier.nom, vino__utilisateur_id FROM vino__cellier JOIN vino__utilisateur ON vino__utilisateur.id =vino__cellier.vino__utilisateur_id where vino__cellier.vino__utilisateur_id =`+ id +``);
+};
+
+/** Utilisateurs */
 
 /**
  * Suppression d'un utilisateur 
@@ -56,8 +73,10 @@ async function deleteUser (emailUtilisateur) {
   return connection.execute("SELECT vino__utilisateur.id, vino__utilisateur.email, vino__utilisateur.nom FROM vino__utilisateur");
 };
 
+
 module.exports = {
   getAllBouteilles,
+  getAllCelliers,
   createUser,
   deleteUser,
   findUtilisateur,
