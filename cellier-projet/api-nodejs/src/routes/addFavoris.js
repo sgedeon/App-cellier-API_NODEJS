@@ -1,11 +1,10 @@
-const {deleteUser} = require("../queryHelpers");
+const {addFavoris} = require("../queryHelpers");
 const genericError = "Marche pô";
 
 module.exports = (app) => {
-  app.delete('/api/delete/utilisateur/:email', async function (request, response) {
+  app.post('/api/ajout/favoris', async function (request, response) {
     try {
-      email = request.params.email
-      const result = await deleteUser(email);
+      const result = await addFavoris(request.body);
       response.send({ success: true, result });
     } catch (error) {
       response.status(500).send({

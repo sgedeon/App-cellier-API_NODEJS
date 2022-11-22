@@ -25,10 +25,12 @@ app.use(cors(corsOptions));
 
 /** Bouteilles */
 require('./src/routes/getAllBouteilles')(app)
+require('./src/routes/getBouteillesInventaire')(app)
+require('./src/routes/addFavoris')(app)
 
 /** Celliers */
 require('./src/routes/getCelliers')(app)
-// require('./src/routes/getCellier')(app)
+require('./src/routes/getCellier')(app)
 
 /** Utilisateurs */
 require('./src/routes/createUser')(app)

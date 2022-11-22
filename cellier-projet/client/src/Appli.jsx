@@ -174,10 +174,7 @@ const Appli = () => {
       .catch((err) =>
         console.log("Erreur lors de la suppression de viotre profil", err)
       );
-    Axios.delete(
-      "http://localhost:3001/api/delete/utilisateur",
-      { email: emailUtilisateur},
-    )
+    Axios.delete("http://localhost:3001/api/delete/utilisateur/" + emailUtilisateur + "")
     .then((res) => res.data)
     .then((res) => {
       console.log(res);
@@ -219,36 +216,17 @@ const Appli = () => {
   }
 
   async function fetchNomCellier() {
-    await fetch(
-      URI +
-        "/" +
-        "user_id" +
-        "/" +
-        id +
-        "/" +
-        "celliers" +
-        "/" +
-        "cellier" +
-        "/" +
-        cellier
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setNomCellier(data.nom);
-        if (data["erreur"] === undefined) {
-          localStorage.setItem("nomCellier", JSON.stringify(data));
-          setNomCellier(JSON.parse(localStorage.getItem("nomCellier")));
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/" + "cellier/" + cellier).then(response => {
+      const { data } = response
+      if (data.success === true) {
+        localStorage.setItem("nomCellier", JSON.stringify(data.result[0][0].nom));
+        setNomCellier(JSON.parse(localStorage.getItem("nomCellier")));
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   // --------------------------------- Gestion des bouteilles ------------------------------------
@@ -256,7 +234,6 @@ const Appli = () => {
   async function fetchVins(cellier) {
     Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/vins").then(response => {
       const { data } = response
-      console.log(data.result);
       setBouteilles(data.result[0]);
     })
     .catch((error) => {
@@ -268,40 +245,48 @@ const Appli = () => {
   // --------------------------------- Gestion des différentes bouteilles comprises dans tous mes celliers ------------------------------------
 
   async function fetchVinsInventaire() {
-    await fetch(URI + "/" + "user_id" + "/" + id + "/" + "vinsInventaire")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setBouteillesInventaire(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/vinsInventaire").then(response => {
+      const { data } = response
+      console.log(data);
+      setBouteillesInventaire(data.result[0]);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function fetchAjouterFavoris(vin) {
-    await fetch(URI + `/favoris/ajouter/favoris`, {
-      method: "POST",
-      body: JSON.stringify(vin),
+    // await fetch(URI + `/favoris/ajouter/favoris`, {
+    //   method: "POST",
+    //   body: JSON.stringify(vin),
+    // })
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     throw response;
+    //   })
+    //   .then((data) => {
+    //     fetchFavorisId(id);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data: ", error);
+    //     setError(error);
+    //   });
+    Axios.post(
+      "http://localhost:3001/api/ajout/favoris",
+      { body: vin },
+    )
+    .then((res) => res.data)
+    .then((res) => {
+      console.log(res);
+      fetchFavorisId(id);
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        fetchFavorisId(id);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function fetchSupprimerFavoris(vin) {
