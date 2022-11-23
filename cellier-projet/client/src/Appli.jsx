@@ -179,6 +179,10 @@ const Appli = () => {
     .then((res) => {
       console.log(res);
     })
+    .catch((error) => {
+      console.error("Erreur lors de la suppression de viotre profil", error);
+      setError(error);
+    });
   }
 
   async function gererSignOut() {
@@ -235,6 +239,7 @@ const Appli = () => {
     Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/vins").then(response => {
       const { data } = response
       setBouteilles(data.result[0]);
+      console.log(bouteilles)
     })
     .catch((error) => {
       console.error("Error fetching data: ", error);
@@ -247,7 +252,6 @@ const Appli = () => {
   async function fetchVinsInventaire() {
     Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/vinsInventaire").then(response => {
       const { data } = response
-      console.log(data);
       setBouteillesInventaire(data.result[0]);
     })
     .catch((error) => {
@@ -257,23 +261,6 @@ const Appli = () => {
   }
 
   async function fetchAjouterFavoris(vin) {
-    // await fetch(URI + `/favoris/ajouter/favoris`, {
-    //   method: "POST",
-    //   body: JSON.stringify(vin),
-    // })
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     throw response;
-    //   })
-    //   .then((data) => {
-    //     fetchFavorisId(id);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data: ", error);
-    //     setError(error);
-    //   });
     Axios.post(
       "http://localhost:3001/api/ajout/favoris",
       { body: vin },
@@ -284,28 +271,22 @@ const Appli = () => {
       fetchFavorisId(id);
     })
     .catch((error) => {
-      console.error("Error fetching data: ", error);
+      console.error("Erreur lors de l'ajout du favoris : ", error);
       setError(error);
     });
   }
 
   async function fetchSupprimerFavoris(vin) {
-    await fetch(URI + `/utilisateur/${id}/favoris/vin/${vin}`, {
-      method: "DELETE",
+    Axios.delete("http://localhost:3001/api/delete/utilisateur/" + id + "/favoris/vin/" + vin )
+    .then((res) => res.data)
+    .then((res) => {
+      fetchFavorisId(id);
+      console.log(res);
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        fetchFavorisId(id);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   async function fetchFavorisId(utilisateur) {
@@ -320,11 +301,21 @@ const Appli = () => {
       })
       .then((data) => {
         setFavorisId(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
         setError(error);
       });
+
+    // Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/favoris").then(response => {
+    //   const { data } = response
+    //   setFavorisId(data.result[0]);
+    // })
+    // .catch((error) => {
+    //   console.error("Error fetching data: ", error);
+    //   setError(error);
+    // });
   }
 
   // ---------------------------------- Rendering -----------------------------------------

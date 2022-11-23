@@ -28,6 +28,10 @@ require('./src/routes/getAllBouteilles')(app)
 require('./src/routes/getBouteillesInventaire')(app)
 require('./src/routes/addFavoris')(app)
 
+/** favoris */
+require('./src/routes/deleteFavoris')(app)
+require('./src/routes/getFavoris')(app)
+
 /** Celliers */
 require('./src/routes/getCelliers')(app)
 require('./src/routes/getCellier')(app)
