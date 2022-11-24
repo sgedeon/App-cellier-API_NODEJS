@@ -29,14 +29,18 @@ async function getAllBouteilles (id) {
 };
 
 /**
- * Ajout de la mention favoris à une bouteille donnée
+ * Gestion de la mise à jour d'une bouteille
  * @date 2022-11-11
  * @param {object} body
  * @returns {array}
  */
- async function addFavoris (body) {
+async function updateBouteille (body, cellier, bouteille) {
   const connection = await getConnection();
-  return connection.execute(`INSERT INTO vino__favoris (vino__bouteille_id, vino__utilisateur_id) VALUES ("`+ body.body.vino__bouteille_id +`", "`+ body.body.vino__utilisateur_id +`")`);
+  console.log(body);
+  return connection.execute(`UPDATE vino__bouteille_has_vino__cellier 
+  SET quantite="`+ body.quantite +`", date_achat="`+ body.date_achat +`", garde_jusqua="`+ body.garde_jusqua +`" 
+  WHERE vino__bouteille_id=`+ bouteille +` 
+  AND vino__cellier_id=`+ cellier +``);
 };
 
 /** Celliers */
@@ -66,6 +70,17 @@ async function getCellier(cellier) {
 /** Favoris */
 
 /**
+ * Ajout de la mention favoris à une bouteille donnée
+ * @date 2022-11-11
+ * @param {object} body
+ * @returns {array}
+ */
+ async function addFavoris (body) {
+  const connection = await getConnection();
+  return connection.execute(`INSERT INTO vino__favoris (vino__bouteille_id, vino__utilisateur_id) VALUES ("`+ body.body.vino__bouteille_id +`", "`+ body.body.vino__utilisateur_id +`")`);
+};
+
+/**
  * Suppression de la dénomination favoris d'un vin
  * @date 2022-11-23
  * @param {int} vin
@@ -78,14 +93,14 @@ async function deleteFavoris (utilisateur, vin) {
 };
 
 /**
- * Récupérations d'un vin favoris
- * @date 2022-11-23
- * @param {int} vin
+ * Gestion de la récupération des ID des vins favoris
+ * @date 2022-11-24
+ * @param {int} utilisateur
  * @returns {Array}
  */
- async function deleteFavoris (utilisateur, vin) {
+async function getFavorisId(utilisateur) {
   const connection = await getConnection();
-  return connection.execute(`DELETE FROM vino__favoris WHERE vino__bouteille_id=`+ vin +` AND vino__utilisateur_id=`+ utilisateur +``);
+  return connection.execute(`SELECT vino__favoris.vino__bouteille_id FROM vino__favoris JOIN vino__utilisateur ON vino__favoris.vino__utilisateur_id= vino__utilisateur.id WHERE vino__favoris.vino__utilisateur_id =`+ utilisateur +` GROUP BY vino__favoris.vino__bouteille_id`);
 };
 
 /** Utilisateurs */
@@ -96,7 +111,7 @@ async function deleteFavoris (utilisateur, vin) {
  * @param {object} body
  * @returns {array}
  */
- async function createUser (body) {
+async function createUser (body) {
   const connection = await getConnection();
   const addUser = await connection.execute(`INSERT INTO vino__utilisateur (vino__utilisateur.email, vino__utilisateur.nom) VALUES ("`+ body.email +`" ,"`+ body.nom +`")`);
   return connection.execute(`INSERT INTO vino__cellier (vino__cellier.nom, vino__utilisateur_id) VALUES ("Coucou", `+ addUser[0].insertId +`)`);
@@ -138,8 +153,10 @@ async function findUtilisateurs (emailUtilisateur) {
 module.exports = {
   getAllBouteilles,
   getBouteillesInventaire,
+  updateBouteille,
   addFavoris,
   deleteFavoris,
+  getFavorisId,
   getAllCelliers,
   getCellier,
   createUser,

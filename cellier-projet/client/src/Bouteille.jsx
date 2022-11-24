@@ -1,4 +1,6 @@
 import * as React from "react";
+import Axios from 'axios';
+import moment from "moment";
 import "./Bouteille.scss";
 import FrmBouteille from "./FrmBouteille";
 import { useState, useEffect } from "react";
@@ -270,42 +272,52 @@ export default function Bouteille(props) {
     NouveauDateAchat,
     NouveauDateGarde
   ) {
-    let reponse = await fetch(
-      props.URI +
-        "/" +
-        "cellier" +
-        "/" +
-        props.vino__cellier_id +
-        "/" +
-        "vins" +
-        "/" +
-        "bouteille" +
-        "/" +
-        props.id,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          quantite: NouveauQuantite,
-          date_achat: NouveauDateAchat,
-          garde_jusqua: NouveauDateGarde,
-        }),
-      }
+    // let reponse = await fetch(
+    //   props.URI +
+    //     "/cellier/" + props.vino__cellier_id + "/vins/bouteille/" +props.id,
+    //   {
+    //     method: "PATCH",
+    //     body: JSON.stringify({
+    //       quantite: NouveauQuantite,
+    //       date_achat: NouveauDateAchat,
+    //       garde_jusqua: NouveauDateGarde,
+    //     }),
+    //   },
+    // )
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     throw response;
+    //   })
+    //   .then((data) => {
+    //     props.setChangementBouteille(Math.random());
+    //     fetchVinUn();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data: ", error);
+    //     // setError(error);
+    //   });
+    Axios.patch(
+      "http://localhost:3001/api/update/cellier/" + props.vino__cellier_id + "/bouteille/" + props.id,
+      { 
+        quantite: NouveauQuantite,
+        date_achat: moment(NouveauDateAchat).utc().format('YYYY-MM-DD'),
+        garde_jusqua: NouveauDateGarde, 
+      },
     )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        props.setChangementBouteille(Math.random());
-        fetchVinUn();
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        // setError(error);
-      });
+    .then((res) => res.data)
+    .then((res) => {
+      console.log(res);
+      props.setChangementBouteille(Math.random());
+      fetchVinUn();
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      // setError(error);
+    });
   }
+
   async function fetchVinUn() {
     await fetch(
       props.URI +

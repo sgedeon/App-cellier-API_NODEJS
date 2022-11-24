@@ -290,32 +290,15 @@ const Appli = () => {
   }
 
   async function fetchFavorisId(utilisateur) {
-    await fetch(
-      URI + "/" + "utilisateurId" + "/" + utilisateur + "/" + "favoris"
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setFavorisId(data);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      });
-
-    // Axios.get("http://localhost:3001/api/get/utilisateur/" + id + "/favoris").then(response => {
-    //   const { data } = response
-    //   setFavorisId(data.result[0]);
-    // })
-    // .catch((error) => {
-    //   console.error("Error fetching data: ", error);
-    //   setError(error);
-    // });
+    Axios.get("http://localhost:3001/api/get/utilisateur/" + utilisateur  + "/favoris").then(response => {
+      const { data } = response
+      setFavorisId(data.result[0]);
+      console.log(data.result[0]);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
   }
 
   // ---------------------------------- Rendering -----------------------------------------

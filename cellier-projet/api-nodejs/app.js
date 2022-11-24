@@ -27,10 +27,12 @@ app.use(cors(corsOptions));
 require('./src/routes/getAllBouteilles')(app)
 require('./src/routes/getBouteillesInventaire')(app)
 require('./src/routes/addFavoris')(app)
+require('./src/routes/updateBouteille')(app)
 
 /** favoris */
 require('./src/routes/deleteFavoris')(app)
 require('./src/routes/getFavoris')(app)
+require('./src/routes/getFavorisId')(app)
 
 /** Celliers */
 require('./src/routes/getCelliers')(app)
