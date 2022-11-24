@@ -25,6 +25,7 @@ app.use(cors(corsOptions));
 
 /** Bouteilles */
 require('./src/routes/getAllBouteilles')(app)
+require('./src/routes/getBouteille')(app)
 require('./src/routes/getBouteillesInventaire')(app)
 require('./src/routes/addFavoris')(app)
 require('./src/routes/updateBouteille')(app)

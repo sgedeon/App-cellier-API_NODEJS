@@ -3,6 +3,20 @@ const getConnection = require("./db");
 /** Bouteilles */
 
 /**
+ * Gestion de la récupération d'une bouteille d'un cellier donné
+ * @date 2022-11-11
+ * @param {int} id
+ * @returns {Array}
+ */
+async function getBouteille (cellier, bouteille) {
+  const connection = await getConnection();
+  return connection.execute(`SELECT nom, image, code_saq, pays, description, prix_saq, url_saq, url_img, format, vino__type_id, millesime,personnalise, vino__cellier_id, quantite, date_achat, garde_jusqua, notes 
+  FROM vino__bouteille JOIN vino__bouteille_has_vino__cellier 
+  ON vino__bouteille.id=vino__bouteille_has_vino__cellier.vino__bouteille_id 
+  WHERE vino__cellier_id =`+ cellier +` AND vino__bouteille_has_vino__cellier.vino__bouteille_id =`+ bouteille +``);
+};
+
+/**
  * Gestion de la récupération de la liste de bouteilles d'un cellier donné
  * @date 2022-11-11
  * @param {int} id
@@ -151,6 +165,7 @@ async function findUtilisateurs (emailUtilisateur) {
 };
 
 module.exports = {
+  getBouteille,
   getAllBouteilles,
   getBouteillesInventaire,
   updateBouteille,

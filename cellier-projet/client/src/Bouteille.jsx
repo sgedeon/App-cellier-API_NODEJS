@@ -272,79 +272,37 @@ export default function Bouteille(props) {
     NouveauDateAchat,
     NouveauDateGarde
   ) {
-    // let reponse = await fetch(
-    //   props.URI +
-    //     "/cellier/" + props.vino__cellier_id + "/vins/bouteille/" +props.id,
-    //   {
-    //     method: "PATCH",
-    //     body: JSON.stringify({
-    //       quantite: NouveauQuantite,
-    //       date_achat: NouveauDateAchat,
-    //       garde_jusqua: NouveauDateGarde,
-    //     }),
-    //   },
-    // )
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     throw response;
-    //   })
-    //   .then((data) => {
-    //     props.setChangementBouteille(Math.random());
-    //     fetchVinUn();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data: ", error);
-    //     // setError(error);
-    //   });
-    Axios.patch(
-      "http://localhost:3001/api/update/cellier/" + props.vino__cellier_id + "/bouteille/" + props.id,
-      { 
-        quantite: NouveauQuantite,
-        date_achat: moment(NouveauDateAchat).utc().format('YYYY-MM-DD'),
-        garde_jusqua: NouveauDateGarde, 
-      },
-    )
+      Axios.patch(
+        "http://localhost:3001/api/update/cellier/" + props.vino__cellier_id + "/bouteille/" + props.id,
+        { 
+          quantite: NouveauQuantite,
+          date_achat: moment(NouveauDateAchat).utc().format('YYYY-MM-DD'),
+          garde_jusqua: NouveauDateGarde, 
+        },
+      )
+      .then((res) => res.data)
+      .then((res) => {
+        console.log(res);
+        props.setChangementBouteille(Math.random());
+        fetchVinUn();
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        // setError(error);
+      });
+  }
+
+  async function fetchVinUn() {
+    Axios.get("http://localhost:3001/api/get/cellier/" + props.vino__cellier_id + "/bouteille/" + props.id,)
     .then((res) => res.data)
     .then((res) => {
-      console.log(res);
-      props.setChangementBouteille(Math.random());
-      fetchVinUn();
+      setContexteModif(true);
+      setBouteille(res.result[0][0]);
     })
     .catch((error) => {
       console.error("Error fetching data: ", error);
       // setError(error);
     });
-  }
-
-  async function fetchVinUn() {
-    await fetch(
-      props.URI +
-        "/" +
-        "cellier" +
-        "/" +
-        props.vino__cellier_id +
-        "/" +
-        "vins" +
-        "/" +
-        "bouteille" +
-        "/" +
-        props.id
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setContexteModif(true);
-        setBouteille(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
   }
 
   /**
