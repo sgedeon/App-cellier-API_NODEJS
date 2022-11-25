@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import "./BouteilleInventaire.scss";
 import { useState, useEffect } from "react";
 import MuiButton from "@mui/material/Button";
@@ -8,7 +9,6 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-
 import ListeInventaire from "./ListeInventaire";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -106,30 +106,12 @@ export default function BouteilleInventaire(props) {
 	 * fetch la liste des inventaires d'une bouteille
 	 */
 	async function fetchListeInventaire() {
-		await fetch(
-			props.URI +
-			"/" +
-			"user_id" +
-			"/" +
-			props.user_id +
-			"/" +
-			"vinsInventaire" +
-			"/" +
-			"vin_id" +
-			"/" +
-			props.bouteilleInventaire.id
-		)
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw response;
-		})
-		.then((data) => {
-			setListeInventaire(data);
+		Axios.get("http://localhost:3001/api/get/utilisateur/" + props.user_id + "/vinsInventaire/" + props.bouteilleInventaire.id ).then(response => {
+			const { data } = response
+			setListeInventaire(data.result[0]);
 		})
 		.catch((error) => {
-			console.erro("Error fetching data: ", error);
+			console.error("Error fetching data: ", error);
 			props.setError(error);
 		});
 	}
