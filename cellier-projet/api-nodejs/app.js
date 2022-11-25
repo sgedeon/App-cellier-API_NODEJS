@@ -29,6 +29,7 @@ require('./src/routes/getBouteille')(app)
 require('./src/routes/getBouteillesInventaire')(app)
 require('./src/routes/addFavoris')(app)
 require('./src/routes/updateBouteille')(app)
+require('./src/routes/deleteBouteille')(app)
 
 /** favoris */
 require('./src/routes/deleteFavoris')(app)

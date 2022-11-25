@@ -50,11 +50,24 @@ async function getAllBouteilles (id) {
  */
 async function updateBouteille (body, cellier, bouteille) {
   const connection = await getConnection();
-  console.log(body);
   return connection.execute(`UPDATE vino__bouteille_has_vino__cellier 
   SET quantite="`+ body.quantite +`", date_achat="`+ body.date_achat +`", garde_jusqua="`+ body.garde_jusqua +`" 
   WHERE vino__bouteille_id=`+ bouteille +` 
   AND vino__cellier_id=`+ cellier +``);
+};
+
+/**
+ * Suppression d'une bouteille
+ * @date 2022-11-25
+ * @param {int} vin
+ * @param {int} cellier
+ * @returns {Array}
+ */
+async function deleteBouteille (vin, cellier) {
+  const connection = await getConnection();
+  return connection.execute(`DELETE FROM vino__bouteille_has_vino__cellier 
+  WHERE vino__bouteille_has_vino__cellier.vino__bouteille_id=`+ vin +`
+  AND vino__bouteille_has_vino__cellier.vino__cellier_id=`+ cellier +``);
 };
 
 /** Celliers */
@@ -169,6 +182,7 @@ module.exports = {
   getAllBouteilles,
   getBouteillesInventaire,
   updateBouteille,
+  deleteBouteille,
   addFavoris,
   deleteFavoris,
   getFavorisId,

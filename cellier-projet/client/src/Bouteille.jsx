@@ -309,32 +309,22 @@ export default function Bouteille(props) {
    * Supprime le cellier
    */
   async function fetchSupprimerBouteille() {
-    await fetch(
-      props.URI +
-        `/supprimer/${props.id}/vins/cellier/${props.vino__cellier_id}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setMessageRetour("Suppression effectuée");
-        setSeverity("success");
-        setOpenAlert(true);
-        setTimeout(() => {
-          props.fetchVins(props.vino__cellier_id);
-          viderFermerFrm();
-        }, 1000);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        props.setError(props.error);
-      });
+    Axios.delete("http://localhost:3001/api/delete/vin/" + props.id + "/cellier/" + props.vino__cellier_id + "")
+    .then((res) => res.data)
+    .then((res) => {
+      setMessageRetour("Suppression effectuée");
+      setSeverity("success");
+      setOpenAlert(true);
+      setTimeout(() => {
+        props.fetchVins(props.vino__cellier_id);
+        viderFermerFrm();
+      }, 1000);
+      console.log(res)
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      props.setError(props.error);
+    });
   }
   return (
     <>
