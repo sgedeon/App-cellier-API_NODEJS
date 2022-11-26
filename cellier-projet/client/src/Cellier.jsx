@@ -154,31 +154,27 @@ export default function Cellier(props) {
 	}
 
 	/**
-	 * Supprime le cellier
+	 * Supprime un cellier donné
 	 */
 	async function fetchSupprimerCellier() {
-		await fetch(props.URI + `/cellier/${cellier}/celliers`, {
-			method: "DELETE",
-		})
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw response;
-		})
-		.then((data) => {
-			setMessageRetour("Suppression effectuée");
-			setSeverity("success");
-			setOpenAlert(true);
-			setTimeout(() => {
+		Axios.delete("http://localhost:3001/api/delete/cellier/" + cellier)
+		.then((res) => res.data)
+		.then((res) => {
+		  setMessageRetour("Suppression effectuée");
+		  setSeverity("success");
+		  setOpenAlert(true);
+		  setTimeout(() => {
 				props.fetchCelliers();
-			}, 1000);
+		  }, 1000);
+		  console.log(res)
 		})
 		.catch((error) => {
-			console.error("Error fetching data: ", error);
-			props.setError(props.error);
+		  console.error("Error fetching data: ", error);
+		  props.setError(props.error);
 		});
 	}
+
+  
 	return (
 	<>
 		<div

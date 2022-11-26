@@ -6,8 +6,6 @@ module.exports = (app) => {
     try {
       var utilisateur = request.params.id
       var vin = request.params.vin
-      console.log(utilisateur);
-      console.log(vin);
       const result = await deleteFavoris(utilisateur, vin);
       response.send({ success: true, result });
     } catch (error) {

@@ -120,6 +120,18 @@ async function getCellier(cellier) {
 };
 
 /**
+ * Gestion de la suppression d'un cellier donné
+ * @date 2022-11-11
+ * @param {int} cellier
+ * @returns {Array}
+ */
+async function deleteCellier(cellier) {
+  const connection = await getConnection();
+  return connection.execute(`DELETE FROM vino__cellier WHERE vino__cellier.id=`+ cellier +``);
+};
+
+
+/**
  * Gestion de la récupération des statistiques d'un cellier donné
  * @date 2022-11-26
  * @param {int} cellier
@@ -229,6 +241,7 @@ module.exports = {
   getFavorisId,
   getAllCelliers,
   getCellier,
+  deleteCellier,
   getCellierStats,
   createUser,
   deleteUser,

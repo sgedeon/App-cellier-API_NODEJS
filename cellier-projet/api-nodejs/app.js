@@ -45,6 +45,7 @@ require('./src/routes/getFavorisId')(app)
 require('./src/routes/getCelliers')(app)
 require('./src/routes/getCellier')(app)
 require('./src/routes/getCellierStats')(app)
+require('./src/routes/deleteCellier')(app)
 
 /** Utilisateurs */
 require('./src/routes/createUser')(app)
