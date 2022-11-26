@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import "./Cellier.scss";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -142,17 +143,11 @@ export default function Cellier(props) {
 
 	// Va chercher les stats d'un cellier
 	async function fetchStatsCellier() {
-		await fetch(props.URI + "/" + "cellier" + "/" + cellier + "/" + "stats")
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw response;
+		Axios.get("http://localhost:3001/api/get/cellier/" + cellier + "/stats").then(response => {
+			const { data } = response
+			setStatsCellier(data.result[0]);
 		})
-		.then((data) => {
-			setStatsCellier(data);
-		})
-		.catch((error) => {
+			.catch((error) => {
 			console.error("Error fetching data: ", error);
 			props.setError(error);
 		});

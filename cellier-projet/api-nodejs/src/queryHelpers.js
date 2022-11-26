@@ -119,6 +119,21 @@ async function getCellier(cellier) {
   return connection.execute(`SELECT  vino__cellier.nom FROM vino__cellier WHERE vino__cellier.id = `+ cellier +``);
 };
 
+/**
+ * Gestion de la récupération des statistiques d'un cellier donné
+ * @date 2022-11-26
+ * @param {int} cellier
+ * @returns {Array}
+ */
+ async function getCellierStats(cellier) {
+  const connection = await getConnection();
+  return connection.execute(`SELECT count(*) as compte, sum(prix_saq * quantite) as somme FROM vino__bouteille JOIN vino__bouteille_has_vino__cellier 
+  ON vino__bouteille.id=vino__bouteille_has_vino__cellier.vino__bouteille_id 
+  JOIN vino__type ON vino__bouteille.vino__type_id=vino__type.id 
+  JOIN vino__cellier ON vino__cellier.id =vino__bouteille_has_vino__cellier.vino__cellier_id 
+  where vino__bouteille_has_vino__cellier.vino__cellier_id =`+ cellier +` ORDER BY vino__bouteille.id ASC`);
+};
+
 /** Favoris */
 
 /**
@@ -214,6 +229,7 @@ module.exports = {
   getFavorisId,
   getAllCelliers,
   getCellier,
+  getCellierStats,
   createUser,
   deleteUser,
   findUtilisateur,
