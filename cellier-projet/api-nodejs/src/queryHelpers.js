@@ -179,7 +179,31 @@ async function deleteFavoris (utilisateur, vin) {
  */
 async function getFavorisId(utilisateur) {
   const connection = await getConnection();
-  return connection.execute(`SELECT vino__favoris.vino__bouteille_id FROM vino__favoris JOIN vino__utilisateur ON vino__favoris.vino__utilisateur_id= vino__utilisateur.id WHERE vino__favoris.vino__utilisateur_id =`+ utilisateur +` GROUP BY vino__favoris.vino__bouteille_id`);
+  return connection.execute(`
+  SELECT vino__favoris.vino__bouteille_id 
+  FROM vino__favoris 
+  JOIN vino__utilisateur ON vino__favoris.vino__utilisateur_id= vino__utilisateur.id 
+  WHERE vino__favoris.vino__utilisateur_id =`+ utilisateur +` 
+  GROUP BY vino__favoris.vino__bouteille_id`);
+};
+
+/**
+ * Gestion de la récupération des vins favoris
+ * @date 2022-11-24
+ * @param {int} utilisateur
+ * @returns {Array}
+ */
+ async function getFavoris(utilisateur) {
+  const connection = await getConnection();
+  return connection.execute(`
+  SELECT vino__favoris.vino__bouteille_id, vino__bouteille.nom, image, code_saq, pays, description, prix_saq, url_saq, url_img, format, vino__type_id, vino__type.type, millesime,personnalise, vino__cellier_id, quantite, date_achat, garde_jusqua, notes 
+  FROM vino__favoris 
+  JOIN vino__utilisateur ON vino__favoris.vino__utilisateur_id = vino__utilisateur.id 
+  JOIN vino__bouteille ON vino__favoris.vino__bouteille_id = vino__bouteille.id 
+  JOIN vino__type ON vino__type.id = vino__bouteille.vino__type_id 
+  JOIN vino__bouteille_has_vino__cellier ON vino__bouteille.id = vino__bouteille_has_vino__cellier.vino__bouteille_id 
+  WHERE vino__favoris.vino__utilisateur_id =`+ utilisateur +`  
+  GROUP BY vino__favoris.vino__bouteille_id`);
 };
 
 /** Utilisateurs */
@@ -238,6 +262,7 @@ module.exports = {
   deleteBouteille,
   addFavoris,
   deleteFavoris,
+  getFavoris,
   getFavorisId,
   getAllCelliers,
   getCellier,

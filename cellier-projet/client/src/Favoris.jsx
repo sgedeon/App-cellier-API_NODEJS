@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Axios from 'axios';
 import "./Favoris.scss";
 import Bouteille from "./Bouteille";
 import { NavLink } from "react-router-dom";
@@ -30,17 +31,10 @@ function Favoris(props) {
   }
 
   async function fetchFavoris(utilisateur) {
-    await fetch(
-      props.URI + "/" + "utilisateur" + "/" + utilisateur + "/" + "favoris"
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setFavoris(data);
+      Axios.get("http://localhost:3001/api/get/favoris/utilisateur/" + utilisateur)
+      .then((res) => res.data)
+      .then((res) => {
+        setFavoris(res.result[0]);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);

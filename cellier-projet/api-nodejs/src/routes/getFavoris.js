@@ -2,10 +2,10 @@ const {getFavoris} = require("../queryHelpers");
 const genericError = "Marche pô";
 
 module.exports = (app) => {
-  app.get("/api/get/utilisateur/:id/vinsInventaire", async function (request, response) {
+  app.get("/api/get/favoris/utilisateur/:utilisateur", async function (request, response) {
     try {
-      var id = request.params.id;
-      const result = await getFavoris(id);
+      var utilisateur = request.params.utilisateur;
+      const result = await getFavoris(utilisateur);
       response.send({ success: true, result });
     } catch (error) {
       response.status(500).send({
