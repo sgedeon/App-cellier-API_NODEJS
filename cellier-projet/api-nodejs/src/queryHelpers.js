@@ -68,6 +68,32 @@ async function getBouteillesInventaire(id) {
 };
 
 /**
+ * Gestion de l'ajout d'une d'un bouteille personnalisé à l'inventaire
+ * @date 2022-11-11
+ * @param {object} body
+ * @returns {Array}
+ */
+async function addBouteillePerso (body) {
+  const connection = await getConnection();
+  const addVino = await connection.execute(`INSERT INTO vino__bouteille (nom, image, code_saq, pays, description, prix_saq, url_saq, url_img, format, vino__type_id, millesime,personnalise) 
+  VALUES ("`+ body.body.nom +`", "`+ body.body.image +`", "`+ body.body.code_saq +`", "`+ body.body.pays +`", "`+ body.body.description +`", "`+ body.body.prix_saq +`", "`+ body.body.url_saq +`", "`+ body.body.url_img +`", "`+ body.body.format +`",`+ body.body.vino__type_id +`, "`+ body.body.millesime +`",`+ body.body.personnalise +`)`)
+  return connection.execute(`INSERT INTO vino__bouteille_has_vino__cellier (vino__bouteille_id, vino__cellier_id, quantite, date_achat, garde_jusqua, notes) 
+  VALUES (`+ addVino[0].insertId +`, `+ body.body.vino__cellier_id +`, "`+ body.body.quantite +`", "`+ body.body.date_achat +`", "`+ body.body.garde_jusqua +`", "`+ body.body.notes +`")`);
+};
+
+/**
+ * Gestion de l'ajout d'une bouteille saq à l'inventaire
+ * @date 2022-11-11
+ * @param {object} body
+ * @returns {Array}
+ */
+ async function addBouteille (body) {
+  const connection = await getConnection();
+  return connection.execute(`INSERT INTO vino__bouteille_has_vino__cellier (vino__bouteille_id, vino__cellier_id, quantite, date_achat, garde_jusqua, notes) 
+  VALUES (`+ body.body.vino__bouteille_id +`, `+ body.body.vino__cellier_id +`, "`+ body.body.quantite +`", "`+ body.body.date_achat +`", "`+ body.body.garde_jusqua +`", "`+ body.body.notes +`")`);
+};
+
+/**
  * Gestion de la mise à jour d'une bouteille
  * @date 2022-11-11
  * @param {object} body
@@ -258,6 +284,8 @@ module.exports = {
   getAllBouteilles,
   getInventairesBouteille,
   getBouteillesInventaire,
+  addBouteillePerso,
+  addBouteille,
   updateBouteille,
   deleteBouteille,
   addFavoris,

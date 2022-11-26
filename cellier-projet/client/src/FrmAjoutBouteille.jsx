@@ -1,5 +1,6 @@
 import "./FrmAjoutBouteille.scss";
 import * as React from "react";
+import Axios from 'axios';
 import { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -276,29 +277,43 @@ export default function FrmAjoutBouteille(props) {
       };
     }
     // Fetch API d'ajouter une bouteille , soit l'importation du SAQ soit la création personnalisé
-    let fetchAjoutBouteille = await fetch(
-      // "http://localhost/PW2/cellier-projet/api-php" +
-      props.URI + "/" + "cellier" + "/" + vinCellier + "/" + "vins",
-      {
-        method: "POST",
-        body: JSON.stringify(formData),
-      }
+    // let fetchAjoutBouteille = await fetch(
+    //   // "http://localhost/PW2/cellier-projet/api-php" +
+    //   props.URI + "/" + "cellier" + "/" + vinCellier + "/" + "vins",
+    //   {
+    //     method: "POST",
+    //     body: JSON.stringify(formData),
+    //   }
+    // )
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     throw response;
+    //   })
+    //   .then((data) => {
+    //     props.fetchVins(vinCellier);
+    //     props.setCellier(vinCellier);
+    //     navigate(`/cellier/${vinCellier}/vins`, { replace: true });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data: ", error);
+    //     props.setError(error);
+    //   });
+    Axios.post(
+      "http://localhost:3001/api/ajout/vin/cellier/" + vinCellier,
+      { body: formData },
     )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        props.fetchVins(vinCellier);
-        props.setCellier(vinCellier);
-        navigate(`/cellier/${vinCellier}/vins`, { replace: true });
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        props.setError(error);
-      });
+    .then((res) => res.data)
+    .then((res) => {
+      props.fetchVins(vinCellier);
+      props.setCellier(vinCellier);
+      navigate(`/cellier/${vinCellier}/vins`, { replace: true });
+    })
+    .catch((error) => {
+      console.error("Erreur lors de l'ajout du favoris : ", error);
+      props.setError(error);
+    });
   }
   /**
    * gérer l'affichage de l'image de bouteille, l'image par défaut va être à la place de l'image associé si elle n'existe pas
