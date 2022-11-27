@@ -52,6 +52,7 @@ require('./src/routes/deleteCellier')(app)
 /** Utilisateurs */
 require('./src/routes/createUser')(app)
 require('./src/routes/deleteUser')(app)
+require('./src/routes/updateEmail')(app)
 require('./src/routes/getUtilisateur')(app)
 require('./src/routes/getUtilisateurs')(app)
 

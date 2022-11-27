@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -124,16 +125,20 @@ export default function FrmEmail({
 			email: NouvelEmailUtilisateur,
 		});
 		if (result === "SUCCESS") {
-			let reponse = await fetch(
-			URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
-			{
-				method: "PATCH",
-				body: JSON.stringify({ email: NouvelEmailUtilisateur }),
-			}
-			);
-			let reponseJson = await reponse.json();
-			setEmailUtilisateur(NouvelEmailUtilisateur);
-			navigate(`/profil/${NouvelEmailUtilisateur}`, { replace: true });
+      Axios.patch(
+        "http://localhost:3001/api/update/email/" + emailUtilisateur,
+        { email: NouvelEmailUtilisateur},
+      )
+      .then((res) => res.data)
+      .then((res) => {
+        console.log(res);
+        setEmailUtilisateur(NouvelEmailUtilisateur);
+        navigate(`/profil/${NouvelEmailUtilisateur}`, { replace: true });
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        // props.setError(error);
+      });
 		}
 		return result;
 	}
