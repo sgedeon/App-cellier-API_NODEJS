@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import "./FrmAjoutCellier.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -51,29 +52,48 @@ function FormAjoutCellier({ celliers, URI, fetchCelliers, setError }) {
 	}
 
 	async function ajouterCellier(cellier) {
-		await fetch(URI + `/cellier/ajout/celliers`, {
-			method: "POST",
-			body: JSON.stringify(cellier),
-		})
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw response;
-		})
-		.then((data) => {
-			fetchCelliers();
+		// await fetch(URI + `/cellier/ajout/celliers`, {
+		// 	method: "POST",
+		// 	body: JSON.stringify(cellier),
+		// })
+		// .then((response) => {
+		// 	if (response.ok) {
+		// 		return response.json();
+		// 	}
+		// 	throw response;
+		// })
+		// .then((data) => {
+		// 	fetchCelliers();
+		// 	setMessageRetour("Ajout effectuée");
+		// 	setSeverity("success");
+		// 	setOpenAlert(true);
+		// 	setTimeout(() => {
+		// 		navigate("/", { replace: true });
+		// 	}, 2000);
+		// })
+		// .catch((error) => {
+		// 	console.error("Error fetching data: ", error);
+		// 	setError(error);
+		// });
+
+    Axios.post(
+      "http://localhost:3001/api/ajout/cellier",
+      { body: cellier },
+    )
+    .then((res) => res.data)
+    .then((res) => {
+      fetchCelliers();
 			setMessageRetour("Ajout effectuée");
 			setSeverity("success");
 			setOpenAlert(true);
 			setTimeout(() => {
 				navigate("/", { replace: true });
 			}, 2000);
-		})
-		.catch((error) => {
-			console.error("Error fetching data: ", error);
-			setError(error);
-		});
+    })
+    .catch((error) => {
+      console.error("Erreur lors de l'ajout du cellier : ", error);
+      setError(error);
+    });
 	}
 
 	return (

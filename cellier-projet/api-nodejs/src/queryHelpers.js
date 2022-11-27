@@ -145,6 +145,20 @@ async function getCellier(cellier) {
   return connection.execute(`SELECT  vino__cellier.nom FROM vino__cellier WHERE vino__cellier.id = `+ cellier +``);
 };
 
+
+/**
+ * Gestion de l'ajout d'un cellier donné
+ * @date 2022-11-27
+ * @param {object} cellier
+ * @returns {Array}
+ */
+ async function addCellier(body) {
+  console.log(body.body.nom);
+  console.log(body.body.vino__utilisateur_id);
+  const connection = await getConnection();
+  return connection.execute(`INSERT INTO vino__cellier (vino__cellier.nom, vino__utilisateur_id) VALUES ("`+ body.body.nom +`", `+ body.body.vino__utilisateur_id +`)`);
+};
+
 /**
  * Gestion de la suppression d'un cellier donné
  * @date 2022-11-11
@@ -294,6 +308,7 @@ module.exports = {
   getFavorisId,
   getAllCelliers,
   getCellier,
+  addCellier,
   deleteCellier,
   getCellierStats,
   createUser,

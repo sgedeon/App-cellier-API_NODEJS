@@ -276,30 +276,6 @@ export default function FrmAjoutBouteille(props) {
         notes: vinNote,
       };
     }
-    // Fetch API d'ajouter une bouteille , soit l'importation du SAQ soit la création personnalisé
-    // let fetchAjoutBouteille = await fetch(
-    //   // "http://localhost/PW2/cellier-projet/api-php" +
-    //   props.URI + "/" + "cellier" + "/" + vinCellier + "/" + "vins",
-    //   {
-    //     method: "POST",
-    //     body: JSON.stringify(formData),
-    //   }
-    // )
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     throw response;
-    //   })
-    //   .then((data) => {
-    //     props.fetchVins(vinCellier);
-    //     props.setCellier(vinCellier);
-    //     navigate(`/cellier/${vinCellier}/vins`, { replace: true });
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data: ", error);
-    //     props.setError(error);
-    //   });
     Axios.post(
       "http://localhost:3001/api/ajout/vin/cellier/" + vinCellier,
       { body: formData },
