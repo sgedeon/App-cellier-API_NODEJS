@@ -27,6 +27,7 @@ export default function FrmEmail({
 	NouveauUsername,
 	setUsername,
 	frmUsernameOuvert,
+  setError,
 	setFrmUsernameOuvert,
 	URI,
 }) {
@@ -141,8 +142,8 @@ export default function FrmEmail({
         navigate(`/profil/${emailUtilisateur}`, { replace: true });
       })
       .catch((error) => {
-      console.error("Error fetching data: ", error);
-      // props.setError(error);
+        console.error("Error fetching data: ", error);
+        setError(error);
       }
     );
 	}

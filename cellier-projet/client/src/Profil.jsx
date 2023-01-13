@@ -220,6 +220,7 @@ export default function Profil(props) {
           setUsername={props.setUsername}
           NouveauUsername={NouveauUsername}
           setNouveauUsername={setNouveauUsername}
+          setError={props.setError}
           URI={props.URI}
         />
         <FrmEmail

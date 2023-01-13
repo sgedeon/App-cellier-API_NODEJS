@@ -349,6 +349,7 @@ const Appli = () => {
                       utilisateur={utilisateur}
                       setUsername={setUsername}
                       username={username}
+                      setError={setError}
                       fetchUtilisateur={fetchUtilisateur}
                       setUtilisateur={setUtilisateur}
                       gererSignOut={gererSignOut}
