@@ -234,6 +234,7 @@ async function deleteFavoris (utilisateur, vin) {
  */
 async function getFavorisId(utilisateur) {
   const connection = await getConnection();
+  console.log(utilisateur);
   return connection.execute(`
   SELECT vino__favoris.vino__bouteille_id 
   FROM vino__favoris 
