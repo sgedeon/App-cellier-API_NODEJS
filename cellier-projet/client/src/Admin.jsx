@@ -62,12 +62,12 @@ export default function Admin(props) {
 	useEffect(() => {
 	if (nbBouteillesSaq !== 0 && go === false) {
 		const test = setTimeout(() => {
-		setOpenAlertLoading(false);
-		setOpenAlert(true);
-		setNbBouteillesSaq(0);
+      setOpenAlertLoading(false);
+      setOpenAlert(true);
+      setNbBouteillesSaq(0);
 		}, 10000);
 		return () => {
-		clearTimeout(test);
+      clearTimeout(test);
 		};
 	}
 	}, [cycleImportation]);
@@ -76,7 +76,7 @@ export default function Admin(props) {
 	if (nbBouteillesSaq && go !== false) {
 		let nbPages = Math.ceil(nbBouteillesSaq / 96);
 		for (let i = 0; i <= nbPages; i++) {
-		fetchSaq(96, i, go);
+      fetchSaq(96, i, go);
 		}
 		switch (go) {
 		case "rouge": {
@@ -108,39 +108,39 @@ export default function Admin(props) {
 			}),
 		})
 		.then((response) => {
-		if (response.ok) {
-			return response.json();
-		}
-		throw response;
+      if (response.ok) {
+        return response.json();
+      }
+      throw response;
 		})
 		.then((data) => {
-		nb = nb + 96;
-		progression = Math.floor((nb * 100) / nbBouteillesSaq);
-		if (progression > 100) {
-			progression = 100;
-		}
-		setCycleImportation(progression);
+      nb = nb + 96;
+      progression = Math.floor((nb * 100) / nbBouteillesSaq);
+      if (progression > 100) {
+        progression = 100;
+      }
+      setCycleImportation(progression);
 		})
 		.catch((error) => {
-		console.error("Error fetching data: ", error);
-		props.setError(error);
+      console.error("Error fetching data: ", error);
+      props.setError(error);
 		});
 	}
 
 	async function fetchNbVinsSaq(type) {
 		await fetch(props.URI + `/admin/${type}/saq`)
 		.then((response) => {
-		if (response.ok) {
-			return response.json();
-		}
-		throw response;
+      if (response.ok) {
+        return response.json();
+      }
+      throw response;
 		})
 		.then((data) => {
-		setNbBouteillesSaq(data);
-		})
-		.catch((error) => {
-		console.error("Error fetching data: ", error);
-		props.setError(error);
+      setNbBouteillesSaq(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      props.setError(error);
 		});
 	}
 
