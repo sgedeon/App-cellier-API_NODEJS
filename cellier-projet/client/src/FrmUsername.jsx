@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -119,16 +120,31 @@ export default function FrmEmail({
 	 * requête de modification de l'email utilisateur
 	 */
 	async function fetchPatchUtilisateurUsername(NouveauUsername) {
-		let reponse = await fetch(
-			URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
-			{
-			method: "PATCH",
-			body: JSON.stringify({ nom: NouveauUsername }),
-			}
-		);
-		let reponseJson = await reponse.json();
-		setUsername(NouveauUsername);
-		navigate(`/profil/${emailUtilisateur}`, { replace: true });
+		// let reponse = await fetch(
+		// 	URI + "/" + "email" + "/" + emailUtilisateur + "/" + "utilisateurs",
+		// 	{
+		// 	method: "PATCH",
+		// 	body: JSON.stringify({ nom: NouveauUsername }),
+		// 	}
+		// );
+		// let reponseJson = await reponse.json();
+		// setUsername(NouveauUsername);
+		// navigate(`/profil/${emailUtilisateur}`, { replace: true });
+
+    Axios.patch(
+      "http://localhost:3001/api/update/utilisateur/" + emailUtilisateur,
+      { nom: NouveauUsername },
+      )
+      .then((res) => res.data)
+      .then((res) => {
+        setUsername(NouveauUsername);
+        navigate(`/profil/${emailUtilisateur}`, { replace: true });
+      })
+      .catch((error) => {
+      console.error("Error fetching data: ", error);
+      // props.setError(error);
+      }
+    );
 	}
 
 	/**

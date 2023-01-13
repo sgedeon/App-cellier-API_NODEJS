@@ -300,6 +300,18 @@ async function deleteUser (email) {
 };
 
 /**
+ * Gestion de la mise à jour d'un nom d'utilisateur
+ * @date 2022-11-27
+ * @param {string} email
+ * @param {object} body
+ * @returns {array}
+ */
+async function updateUsername (body, email) {
+  const connection = await getConnection();
+  return connection.execute(`UPDATE vino__utilisateur SET vino__utilisateur.nom="`+ body.nom +`"  WHERE vino__utilisateur.email="`+ email +`"`);
+};
+
+/**
  * Récupération d'un utilisateur donné
  * @date 2022-11-11
  * @param {string} emailUtilisateur
@@ -343,6 +355,7 @@ module.exports = {
   createUser,
   deleteUser,
   updateEmail,
+  updateUsername,
   findUtilisateur,
   findUtilisateurs,
 };
