@@ -5,6 +5,7 @@ module.exports = (app) => {
   app.get("/api/get/favoris/utilisateur/:utilisateur", async function (request, response) {
     try {
       var utilisateur = request.params.utilisateur;
+      console.log(utilisateur);
       const result = await getFavoris(utilisateur);
       response.send({ success: true, result });
     } catch (error) {

@@ -97,6 +97,8 @@ async function addBouteillePerso (body) {
  * Gestion de la mise à jour d'une bouteille
  * @date 2022-11-11
  * @param {object} body
+ * @param {int} cellier
+ * @param {int} bouteille
  * @returns {array}
  */
 async function updateBouteille (body, cellier, bouteille) {
@@ -170,6 +172,19 @@ async function deleteCellier(cellier) {
   return connection.execute(`DELETE FROM vino__cellier WHERE vino__cellier.id=`+ cellier +``);
 };
 
+/**
+ * Gestion de la modification d'un cellier donné
+ * @date 2022-11-11
+ * @param {object} body
+ * @param {int} cellier
+ * @returns {Array}
+ */
+async function updateCellier(body, cellier) {
+  const connection = await getConnection();
+  console.log(body.nom)
+  console.log(cellier)
+  return connection.execute(`UPDATE vino__cellier SET vino__cellier.nom="`+ body.nom +`" WHERE vino__cellier.id=`+ cellier +``);
+};
 
 /**
  * Gestion de la récupération des statistiques d'un cellier donné
@@ -322,6 +337,7 @@ module.exports = {
   getCellier,
   addCellier,
   deleteCellier,
+  updateCellier,
   getCellierStats,
   createUser,
   deleteUser,

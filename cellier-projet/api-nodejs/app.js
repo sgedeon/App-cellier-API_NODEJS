@@ -49,6 +49,7 @@ require('./src/routes/getCellier')(app)
 require('./src/routes/addCellier')(app)
 require('./src/routes/getCellierStats')(app)
 require('./src/routes/deleteCellier')(app)
+require('./src/routes/updateCellier')(app)
 
 /** Utilisateurs */
 require('./src/routes/createUser')(app)

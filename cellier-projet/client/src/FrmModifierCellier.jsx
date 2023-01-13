@@ -1,4 +1,5 @@
 import * as React from "react";
+import Axios from 'axios';
 import "./FrmModifierCellier.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -54,49 +55,48 @@ function FrmModifierCellier({ fetchCelliers, URI, error, setError }) {
 	 * Modifier le cellier
 	 */
 	async function fetchModifierCellier(nouvNomCellier) {
-		await fetch(URI + `/cellier/${idCellier}/celliers`, {
-			method: "PATCH",
-			body: JSON.stringify({ nom: nouvNomCellier }),
-		})
-		.then((response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			throw response;
-		})
-		.then((data) => {
-			fetchCelliers();
-			setMessageRetour("Modification effectuée");
-			setSeverity("success");
-			setOpenAlert(true);
-			setTimeout(() => {
-				navigate("/", { replace: true });
-			}, 2000);
-		})
-		.catch((error) => {
-			console.error("Error fetching data: ", error);
-			setError(error);
-		});
+		// await fetch(URI + `/cellier/${idCellier}/celliers`, {
+		// 	method: "PATCH",
+		// 	body: JSON.stringify({ nom: nouvNomCellier }),
+		// })
+		// .then((response) => {
+		// 	if (response.ok) {
+		// 		return response.json();
+		// 	}
+		// 	throw response;
+		// })
+		// .then((data) => {
+		// 	fetchCelliers();
+		// 	setMessageRetour("Modification effectuée");
+		// 	setSeverity("success");
+		// 	setOpenAlert(true);
+		// 	setTimeout(() => {
+		// 		navigate("/", { replace: true });
+		// 	}, 2000);
+		// })
+		// .catch((error) => {
+		// 	console.error("Error fetching data: ", error);
+		// 	setError(error);
+		// });
+    Axios.patch(
+      "http://localhost:3001/api/update/cellier/" + idCellier,
+      { nom: nouvNomCellier },
+    )
+    .then((res) => res.data)
+    .then((res) => {
+      fetchCelliers();
+      setMessageRetour("Modification effectuée");
+      setSeverity("success");
+      setOpenAlert(true);
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 2000);
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setError(error);
+    });
 	}
-
-  Axios.patch(
-    "http://localhost:3001/api/update/cellier/" + idCellier,
-    { nom: nouvNomCellier },
-  )
-  .then((res) => res.data)
-  .then((res) => {
-    fetchCelliers();
-    setMessageRetour("Modification effectuée");
-    setSeverity("success");
-    setOpenAlert(true);
-    setTimeout(() => {
-      navigate("/", { replace: true });
-    }, 2000);
-  })
-  .catch((error) => {
-    console.error("Error fetching data: ", error);
-    setError(error);
-  });
 
 	return (
 	<>
