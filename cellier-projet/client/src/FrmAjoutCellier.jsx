@@ -52,30 +52,6 @@ function FormAjoutCellier({ celliers, URI, fetchCelliers, setError }) {
 	}
 
 	async function ajouterCellier(cellier) {
-		// await fetch(URI + `/cellier/ajout/celliers`, {
-		// 	method: "POST",
-		// 	body: JSON.stringify(cellier),
-		// })
-		// .then((response) => {
-		// 	if (response.ok) {
-		// 		return response.json();
-		// 	}
-		// 	throw response;
-		// })
-		// .then((data) => {
-		// 	fetchCelliers();
-		// 	setMessageRetour("Ajout effectuée");
-		// 	setSeverity("success");
-		// 	setOpenAlert(true);
-		// 	setTimeout(() => {
-		// 		navigate("/", { replace: true });
-		// 	}, 2000);
-		// })
-		// .catch((error) => {
-		// 	console.error("Error fetching data: ", error);
-		// 	setError(error);
-		// });
-
     Axios.post(
       "http://localhost:3001/api/ajout/cellier",
       { body: cellier },

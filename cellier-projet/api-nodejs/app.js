@@ -21,6 +21,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+
 /** Points d'entrée de l'API */
 
 /** Bouteilles */

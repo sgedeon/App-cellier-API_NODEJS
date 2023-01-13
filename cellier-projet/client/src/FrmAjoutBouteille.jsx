@@ -150,6 +150,7 @@ export default function FrmAjoutBouteille(props) {
         }
       });
   }, []);
+  
   /**
    *  Fetch le cellier choisi ayant des bouteilles pour vérifier si la bouteille choisie existe déjà
    */

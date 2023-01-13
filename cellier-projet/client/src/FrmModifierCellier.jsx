@@ -79,6 +79,25 @@ function FrmModifierCellier({ fetchCelliers, URI, error, setError }) {
 		});
 	}
 
+  Axios.patch(
+    "http://localhost:3001/api/update/cellier/" + idCellier,
+    { nom: nouvNomCellier },
+  )
+  .then((res) => res.data)
+  .then((res) => {
+    fetchCelliers();
+    setMessageRetour("Modification effectuée");
+    setSeverity("success");
+    setOpenAlert(true);
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 2000);
+  })
+  .catch((error) => {
+    console.error("Error fetching data: ", error);
+    setError(error);
+  });
+
 	return (
 	<>
 		<div className="Appli--entete">
