@@ -1,5 +1,5 @@
 import "./Admin.scss";
-
+import Axios from 'axios'
 import * as React from "react";
 import { useState, useEffect } from "react";
 import FrmSaq from "./FrmSaq";
@@ -99,14 +99,40 @@ export default function Admin(props) {
 	}, [nbBouteillesSaq]);
 
 	async function fetchSaq(nouveauNombre, nouvellePage, nouveauType) {
-		await fetch(props.URI + "/admin/importer/saq", {
-				method: "POST",
-				body: JSON.stringify({
+		// await fetch(props.URI + "/admin/importer/saq", {
+		// 		method: "POST",
+		// 		body: JSON.stringify({
+		// 		nombre: nouveauNombre,
+		// 		page: nouvellePage,
+		// 		type: nouveauType,
+		// 	}),
+		// })
+		// .then((response) => {
+    //   if (response.ok) {
+    //     return response.json();
+    //   }
+    //   throw response;
+		// })
+		// .then((data) => {
+    //   nb = nb + 96;
+    //   progression = Math.floor((nb * 100) / nbBouteillesSaq);
+    //   if (progression > 100) {
+    //     progression = 100;
+    //   }
+    //   setCycleImportation(progression);
+		// })
+		// .catch((error) => {
+    //   console.error("Error fetching data: ", error);
+    //   props.setError(error);
+		// });
+		Axios.post(
+			"http://localhost:3001/api/admin/importer/saq",
+			{ 
 				nombre: nouveauNombre,
 				page: nouvellePage,
 				type: nouveauType,
-			}),
-		})
+			},
+		)
 		.then((response) => {
       if (response.ok) {
         return response.json();
@@ -128,8 +154,22 @@ export default function Admin(props) {
 	}
 
 	async function fetchNbVinsSaq(type) {
-	await fetch(props.URI + `/admin/${type}/saq`)
-	  .then((response) => {
+		// await fetch(props.URI + `/admin/${type}/saq`)
+		// .then((response) => {
+		// 	if (response.ok) {
+		// 		return response.json();
+		// 	}
+		// 	throw response;
+		// })
+		// .then((data) => {
+		// 	setNbBouteillesSaq(data);
+		// })
+		// .catch((error) => {
+		// 	console.error("Error fetching data: ", error);
+		// 	props.setError(error);
+		// });
+		Axios.get("http://localhost:3001/api/get/vins/" + type + "/saq/")
+		.then((response) => {
       if (response.ok) {
         return response.json();
       }

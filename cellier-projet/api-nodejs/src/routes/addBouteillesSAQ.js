@@ -1,11 +1,10 @@
 const axios = require('axios');
 const JSDOM = require('jsdom');
 const express = require('express');
-const rp = require('request-promise');
 
 const app = express();
 
-app.post('/api/ajout/vinSAQ/', (req, res) => {
+app.post('/api/admin/importer/saq', (req, res) => {
   const body = req.body;
 
   for (let i = 0; i < 1; i++) { //permit to import sequentially multiple pages
