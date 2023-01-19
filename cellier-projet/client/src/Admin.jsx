@@ -21,15 +21,15 @@ export default function Admin(props) {
 	const [cycleImportation, setCycleImportation] = useState(0);
 	const [frmOuvert, setFrmOuvert] = useState(false);
 	const Alert = React.forwardRef(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+	  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 	});
 	const [openAlert, setOpenAlert] = React.useState(false);
 	const [openAlertLoading, setOpenAlertLoading] = React.useState(false);
 	const handleCloseAlert = (event, reason) => {
-	if (reason === "clickaway") {
-		return;
-	}
-	setOpenAlert(false);
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenAlert(false);
 	};
 	const handleCloseAlertLoading = (event, reason) => {
 	if (reason === "clickaway") {
@@ -44,7 +44,7 @@ export default function Admin(props) {
 	// ----------------------- Gestion de l'admin ------------------------------------------------
 
 	function gererSaq() {
-	setFrmOuvert(true);
+	  setFrmOuvert(true);
 	}
 
 	useEffect(() => {
@@ -79,32 +79,32 @@ export default function Admin(props) {
       fetchSaq(96, i, go);
 		}
 		switch (go) {
-		case "rouge": {
-			setGo("blanc");
-			setPrevGo("rouge");
-			break;
-		}
-		case "blanc": {
-			setGo("rose");
-			setPrevGo("blanc");
-			break;
-		}
-		case "rose": {
-			setGo(false);
-			setPrevGo("rosé");
-			break;
-		}
+      case "rouge": {
+        setGo("blanc");
+        setPrevGo("rouge");
+        break;
+      }
+      case "blanc": {
+        setGo("rose");
+        setPrevGo("blanc");
+        break;
+      }
+      case "rose": {
+        setGo(false);
+        setPrevGo("rosé");
+        break;
+      }
 		}
 	}
 	}, [nbBouteillesSaq]);
 
 	async function fetchSaq(nouveauNombre, nouvellePage, nouveauType) {
 		await fetch(props.URI + "/admin/importer/saq", {
-			method: "POST",
-			body: JSON.stringify({
-			nombre: nouveauNombre,
-			page: nouvellePage,
-			type: nouveauType,
+				method: "POST",
+				body: JSON.stringify({
+				nombre: nouveauNombre,
+				page: nouvellePage,
+				type: nouveauType,
 			}),
 		})
 		.then((response) => {
@@ -128,8 +128,8 @@ export default function Admin(props) {
 	}
 
 	async function fetchNbVinsSaq(type) {
-		await fetch(props.URI + `/admin/${type}/saq`)
-		.then((response) => {
+	await fetch(props.URI + `/admin/${type}/saq`)
+	  .then((response) => {
       if (response.ok) {
         return response.json();
       }
@@ -232,14 +232,14 @@ export default function Admin(props) {
 				</Alert>
 				</Snackbar>
 				<FrmSaq
-				setCycleImportation={setCycleImportation}
-				setNbBouteillesSaq={setNbBouteillesSaq}
-				go={go}
-				setGo={setGo}
-				setPrevGo={setPrevGo}
-				frmOuvert={frmOuvert}
-				setFrmOuvert={setFrmOuvert}
-				setOpenAlertLoading={setOpenAlertLoading}
+          setCycleImportation={setCycleImportation}
+          setNbBouteillesSaq={setNbBouteillesSaq}
+          go={go}
+          setGo={setGo}
+          setPrevGo={setPrevGo}
+          frmOuvert={frmOuvert}
+          setFrmOuvert={setFrmOuvert}
+          setOpenAlertLoading={setOpenAlertLoading}
 				/>
 			</div>
 		</div>

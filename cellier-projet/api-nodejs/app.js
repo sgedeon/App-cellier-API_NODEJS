@@ -38,6 +38,9 @@ require('./src/routes/deleteBouteille')(app)
 require('./src/routes/getInventairesBouteille')(app)
 require('./src/routes/getBouteillesInventaire')(app)
 
+/** SAQ */
+require('./src/routes/addBouteillesSAQ')(app)
+
 /** favoris */
 require('./src/routes/deleteFavoris')(app)
 require('./src/routes/getFavoris')(app)
