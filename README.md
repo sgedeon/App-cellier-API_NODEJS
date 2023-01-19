@@ -1,4 +1,4 @@
 # App-Cellier
-Application de gestion de celliers (REACT, API REST PHP)
+Application de gestion de celliers (REACT, API NODE JS)
 
 Lien : https://www.monvino.app
